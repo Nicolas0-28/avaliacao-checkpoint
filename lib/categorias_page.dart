@@ -64,3 +64,57 @@ class CategoriasPage extends StatelessWidget {
     );
   }
 }
+
+// CATEGORIACARD
+
+class CategoriaCard extends StatelessWidget {
+  final String nome;
+  final String imagem;
+
+  const CategoriaCard({super.key, required this.nome, required this.imagem});
+
+  @override
+  Widget build(BuildContext context) {
+    const Color corEscura = Color(0xFF0D0221);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: corEscura,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Column(
+          children: [
+            Expanded(
+              child: Image.asset(
+                imagem,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.image_not_supported),
+                ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              color: Colors.white,
+              child: Text(
+                nome,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: corEscura,
+                  fontFamily: 'FontesCorpo', // FONTE CORPO
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
