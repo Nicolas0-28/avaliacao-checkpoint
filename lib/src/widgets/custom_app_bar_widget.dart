@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 // [TÓPICO 1: Arquitetura de Pastas] Importações modulares relativas apontando para as telas e serviços dentro de src/
-import 'package:usedev_uninassau/src/screens/cart_screen.dart';
-import 'package:usedev_uninassau/src/screens/login_screen.dart';
-import 'package:usedev_uninassau/src/services/cart_service.dart';
+import '../../../usedev_uninassau/lib/src/screens/cart_screen.dart';
+import '../../../usedev_uninassau/lib/src/screens/login_screen.dart';
+import '../../../usedev_uninassau/lib/src/services/cart_service.dart';
 
 // [TÓPICO 10: Widgets Customizados] Componente global reutilizável para padronização da barra de navegação superior
 class CustomAppBarWidget extends StatelessWidget

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 // [TÓPICO 9: Interface com Google Fonts] Importação para aplicação rigorosa da identidade tipográfica
 import 'package:google_fonts/google_fonts.dart';
+
 // [TÓPICO 1: Arquitetura de Pastas] Importação correta dos modelos e telas de dentro da estrutura src/
-import 'package:usedev_uninassau/src/models/product_model.dart';
-import 'package:usedev_uninassau/src/screens/product_detail_screen.dart';
+import '../../../usedev_uninassau/lib/src/models/product_model.dart';
+import '../../../usedev_uninassau/lib/src/screens/product_detail_screen.dart';
 
 // [TÓPICO 10: Widgets Customizados] Card individualizado e reutilizável para a exibição de produtos na Vitrine
 class ProductCardWidget extends StatelessWidget {

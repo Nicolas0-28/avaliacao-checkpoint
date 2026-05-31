@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 // [TÓPICO 9: Interface com Google Fonts] Importação para padronização tipográfica da tela de autenticação
 import 'package:google_fonts/google_fonts.dart';
+
+import '../services/auth_service.dart';
 // [TÓPICO 1: Arquitetura de Pastas] Importações relativas apontando para as camadas corretas de src/
-import 'package:usedev_uninassau/src/screens/initial_screen.dart';
-import 'package:usedev_uninassau/src/services/auth_service.dart';
+import 'initial_screen.dart';
 
 // [TÓPICO 10: Componentização de Telas] View estruturada como StatefulWidget para gerenciar estados locais de inputs
 class LoginScreen extends StatefulWidget {

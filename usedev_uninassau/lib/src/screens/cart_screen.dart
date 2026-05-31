@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 // [TÓPICO 9: Interface com Google Fonts] Importação do pacote para padronização tipográfica da UI
 import 'package:google_fonts/google_fonts.dart';
+
 // [TÓPICO 1: Arquitetura de Pastas] Importações relativas apontando para as camadas corretas de modelos e serviços
-import 'package:usedev_uninassau/src/models/cart_item_model.dart';
-import 'package:usedev_uninassau/src/services/cart_service.dart';
+import '../models/cart_item_model.dart';
+import '../services/cart_service.dart';
 
 // [TÓPICO 10: Componentização de Telas] View isolada para gerenciamento e revisão de compras do usuário
 class CartScreen extends StatelessWidget {

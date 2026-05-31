@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 // [TÓPICO 1: Arquitetura de Pastas] Importação correta dos modelos de dados dentro de src/models/
-import 'package:usedev_uninassau/src/models/cart_item_model.dart';
-import 'package:usedev_uninassau/src/models/product_model.dart';
+import '../models/cart_item_model.dart';
+import '../models/product_model.dart';
 
 // [TÓPICO 4 & 5] Gerenciamento de Estado Nativo com ChangeNotifier e Instância Única Global (Singleton)
 class CartService extends ChangeNotifier {

@@ -2,7 +2,8 @@ import 'dart:convert';
 
 // [TÓPICO 2: Consumo de API REST] Importação do pacote oficial HTTP para comunicação assíncrona externa
 import 'package:http/http.dart' as http;
-import 'package:usedev_uninassau/src/models/product_model.dart';
+
+import '../models/product_model.dart';
 
 // [TÓPICO 1: Separação de Conceitos (SoC)] Classe especialista encarregada da infraestrutura de dados do catálogo
 class ProductService {
