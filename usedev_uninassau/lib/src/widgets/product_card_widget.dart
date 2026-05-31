@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:usedev_uninassau/src/models/product_model.dart'; // Importe o seu model
+import 'package:usedev_uninassau/src/models/product_model.dart';
 
 class ProductCardWidget extends StatelessWidget {
-  final ProductModel product; // Agora recebe o objeto inteiro
+  final ProductModel product;
 
   const ProductCardWidget({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(10), // Corrigido de .all para EdgeInsets.all
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 5,
+      margin: const EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image.network(product.imageUrl, height: 150, fit: BoxFit.cover),
+          Expanded(child: Image.network(product.imageUrl, fit: BoxFit.cover)),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               product.title,
-              style: GoogleFonts.orbitron(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.orbitron(fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             child: Text(
-              'R\$ ${product.price.toStringAsFixed(2)}', // Acessando o preço
-              style: GoogleFonts.poppins(fontSize: 14),
+              'R\$ ${product.price.toStringAsFixed(2)}',
+              style: GoogleFonts.poppins(color: Colors.purple),
             ),
           ),
         ],
