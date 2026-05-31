@@ -1,3 +1,4 @@
+// lib/src/widgets/product_card_widget.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:usedev_uninassau/src/models/product_model.dart';
@@ -11,7 +12,6 @@ class ProductCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // [TÓPICO 8: Navegação de Fluxo] Define a interação para abrir detalhes do produto
       onTap: () {
         Navigator.push(
           context,
@@ -22,49 +22,23 @@ class ProductCardWidget extends StatelessWidget {
       },
       child: Card(
         margin: const EdgeInsets.all(8),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 3,
-        clipBehavior:
-            Clip.antiAlias, // Garante que a imagem respeite o arredondamento
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: SizedBox(
-                width: double.infinity,
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.broken_image, size: 50),
+            Expanded(child: Image.network(product.imageUrl, fit: BoxFit.cover)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                product.title,
+                style: GoogleFonts.orbitron(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.orbitron(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'R\$ ${product.price.toStringAsFixed(2)}',
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      color: const Color(0xFF780BF7),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
+            Text(
+              'R\$ ${product.price.toStringAsFixed(2)}',
+              style: GoogleFonts.poppins(color: Colors.purple),
             ),
           ],
         ),
