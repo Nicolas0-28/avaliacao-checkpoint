@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:usedev_uninassau/src/models/product_model.dart';
+import 'package:usedev_uninassau/src/services/product_service.dart';
+// [TÓPICO 1: Arquitetura de Pastas] Importações modulares vindas das subpastas corretas
 import 'package:usedev_uninassau/src/widgets/custom_app_bar_widget.dart';
 import 'package:usedev_uninassau/src/widgets/hero_section_widget.dart';
 import 'package:usedev_uninassau/src/widgets/product_card_widget.dart';
 import 'package:usedev_uninassau/src/widgets/subscription_section_widget.dart';
 
-// [TÓPICO 1: Arquitetura de Pastas] Importações modulares organizadas por escopo dentro de src/
-import '../models/product_model.dart';
-import '../services/product_service.dart';
-
-// [TÓPICO 10: Componentização de Telas] View principal representativa da Vitrine da loja UseDev
+// [TÓPICO 10: Componentização de Telas] View principal que gerencia o estado do catálogo
 class InitialScreen extends StatefulWidget {
   const InitialScreen({super.key});
 
@@ -23,7 +22,7 @@ class _InitialScreenState extends State<InitialScreen> {
   @override
   void initState() {
     super.initState();
-    // [TÓPICO 2 & 14] Dispara a requisição HTTP da API apenas UMA vez no ciclo de vida inicial da tela
+    // [TÓPICO 2 & 5: Consumo de Serviço] Carregamento inicial assíncrono dos produtos
     _productsFuture = _productService.fetchProducts();
   }
 
@@ -31,9 +30,8 @@ class _InitialScreenState extends State<InitialScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEFEFEF),
-      // [TÓPICO 10] Uso do componente de AppBar personalizado e reutilizável
+      // [TÓPICO 10: Widgets Customizados] Uso da AppBar global
       appBar: const CustomAppBarWidget(),
-      // [TÓPICO 14: Tratamento de Estados] FutureBuilder gerencia de forma limpa os estados assíncronos da UI
       body: FutureBuilder<List<ProductModel>>(
         future: _productsFuture,
         builder: (context, snapshot) {
@@ -45,32 +43,18 @@ class _InitialScreenState extends State<InitialScreen> {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Erro ao carregar catálogo: ${snapshot.error}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                child: Text('Erro ao carregar catálogo: ${snapshot.error}'),
               ),
             );
           }
 
           final products = snapshot.data ?? [];
-
-          if (products.isEmpty) {
-            return const Center(
-              child: Text('Nenhum produto localizado no momento.'),
-            );
-          }
-
           final limitedProducts = products.take(4).toList();
 
+          // [TÓPICO 15: Estrutura de Listagem] Organização dos seções do app
           return ListView(
             children: [
               const HeroSectionWidget(),
-
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: GridView.builder(
@@ -83,13 +67,11 @@ class _InitialScreenState extends State<InitialScreen> {
                     childAspectRatio: 0.75,
                   ),
                   itemCount: limitedProducts.length,
-                  // [TÓPICO 11: Listas Dinâmicas] GridView monta dinamicamente os cards baseados na API REST
                   itemBuilder: (context, index) {
                     return ProductCardWidget(product: limitedProducts[index]);
                   },
                 ),
               ),
-
               const SubscriptionSectionWidget(),
             ],
           );

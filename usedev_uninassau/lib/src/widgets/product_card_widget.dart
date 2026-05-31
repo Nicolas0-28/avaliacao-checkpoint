@@ -1,47 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:usedev_uninassau/src/models/product_model.dart'; // Importe o seu model
 
 class ProductCardWidget extends StatelessWidget {
-  const ProductCardWidget({
-    required this.nome,
-    required this.url,
-    required this.preco,
-    super.key,
-  });
+  final ProductModel product; // Agora recebe o objeto inteiro
 
-  final String nome;
-  final String url;
-  final String preco;
+  const ProductCardWidget({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: .all(20),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+      margin: const EdgeInsets.all(10), // Corrigido de .all para EdgeInsets.all
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 5,
       child: Column(
-        crossAxisAlignment: .stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image.network(url, height: 200, width: double.infinity, fit: .cover),
+          Image.network(product.imageUrl, height: 150, fit: BoxFit.cover),
           Padding(
-            padding: .symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Text(
-              nome,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: .bold,
-                fontFamily: GoogleFonts.orbitron().fontFamily,
+              product.title,
+              style: GoogleFonts.orbitron(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
           Padding(
-            padding: .symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Text(
-              preco,
-              style: TextStyle(
-                fontSize: 31,
-                fontFamily: GoogleFonts.poppins().fontFamily,
-              ),
+              'R\$ ${product.price.toStringAsFixed(2)}', // Acessando o preço
+              style: GoogleFonts.poppins(fontSize: 14),
             ),
           ),
         ],

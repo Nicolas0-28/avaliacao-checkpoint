@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // [TÓPICO 1: Arquitetura de Pastas] Importações relativas apontando para as camadas corretas de src/
 import 'package:usedev_uninassau/src/models/product_model.dart';
+import 'package:usedev_uninassau/src/screens/cart_screen.dart';
 import 'package:usedev_uninassau/src/services/cart_service.dart';
 import 'package:usedev_uninassau/src/widgets/custom_app_bar_widget.dart';
-
-import 'cart_screen.dart';
 
 // [TÓPICO 10: Componentização de Telas] StatefulWidget utilizado para gerenciar as mutações dos atributos locais
 class ProductDetailScreen extends StatefulWidget {
@@ -32,18 +31,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFFBFBFB),
-      // [TÓPICO 10] Reutilização da barra superior customizada
       appBar: const CustomAppBarWidget(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Imagem do Produto com ajuste estético
             Container(
-              height: 320,
+              height: 300,
               width: double.infinity,
-              color: const Color(0xFFF5F5F5),
+              decoration: const BoxDecoration(color: Color(0xFFF5F5F5)),
               child: product.imageUrl.isNotEmpty
-                  ? Image.network(product.imageUrl, fit: BoxFit.contain)
+                  ? Image.network(product.imageUrl, fit: BoxFit.cover)
                   : const Icon(Icons.image, size: 100, color: Colors.grey),
             ),
 
@@ -55,150 +54,87 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Text(
                     product.title,
                     style: GoogleFonts.orbitron(
-                      fontSize: 22,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF090129),
-                      height: 1.2,
                     ),
                   ),
-                  const SizedBox(height: 10),
-
+                  const SizedBox(height: 8),
                   Text(
                     'R\$ ${product.price.toStringAsFixed(2)}',
                     style: GoogleFonts.orbitron(
                       fontSize: 20,
-                      color: const Color(0xFF780BF7), // Roxo da paleta UseDev
+                      color: const Color(0xFF780BF7),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 16),
-
                   Text(
                     product.description,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 14,
                       color: Colors.black54,
                       height: 1.5,
                     ),
                   ),
                   const SizedBox(height: 24),
 
+                  // Seção de Seleção de Cor
                   Text(
-                    'Escolha a cor do tecido',
+                    'Escolha a cor',
                     style: GoogleFonts.orbitron(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
-                      color: const Color(0xFF090129),
                     ),
                   ),
                   const SizedBox(height: 8),
-
-                  Column(
+                  Wrap(
+                    spacing: 10,
                     children: ['Bege', 'Branca', 'Cinza'].map((color) {
-                      return RadioListTile<String>(
-                        title: Text(
-                          color,
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      return ChoiceChip(
+                        label: Text(color),
+                        selected: _selectedColor == color,
+                        selectedColor: const Color(0xFF780BF7),
+                        labelStyle: TextStyle(
+                          color: _selectedColor == color
+                              ? Colors.white
+                              : Colors.black,
                         ),
-                        value: color,
-                        groupValue: _selectedColor,
-                        activeColor: const Color(0xFF780BF7),
-                        contentPadding: EdgeInsets.zero,
-                        dense: true,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedColor = value ?? 'Bege';
-                          });
-                        },
+                        onSelected: (selected) =>
+                            setState(() => _selectedColor = color),
                       );
                     }).toList(),
                   ),
                   const SizedBox(height: 24),
 
+                  // Seleção de Qtd e Tamanho
                   Row(
                     children: [
                       Expanded(
-                        child: DropdownButtonFormField<int>(
-                          value: _quantity,
-                          decoration: InputDecoration(
-                            labelText: 'Quantidade',
-                            labelStyle: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: Colors.black54,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(24.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                          ),
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.black87,
-                          ),
-                          items: List.generate(5, (index) => index + 1).map((
-                            q,
-                          ) {
-                            return DropdownMenuItem(
-                              value: q,
-                              child: Text(q.toString()),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _quantity = value ?? 1;
-                            });
-                          },
+                        child: _buildDropdown(
+                          'Qtd',
+                          _quantity,
+                          List.generate(5, (i) => i + 1),
+                          (val) => setState(() => _quantity = val!),
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: DropdownButtonFormField<String>(
-                          value: _selectedSize,
-                          decoration: InputDecoration(
-                            labelText: 'Tamanho',
-                            labelStyle: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: Colors.black54,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(24.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                          ),
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.black87,
-                          ),
-                          items: ['P', 'M', 'G', 'GG'].map((size) {
-                            return DropdownMenuItem(
-                              value: size,
-                              child: Text(size),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedSize = value ?? 'M';
-                            });
-                          },
+                        child: _buildDropdown(
+                          'Tam',
+                          _selectedSize,
+                          ['P', 'M', 'G', 'GG'],
+                          (val) => setState(() => _selectedSize = val!),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 32),
 
-                  // [TÓPICO 12: Despacho de Regra de Negócio] Gatilho de persistência no carrinho
+                  // [TÓPICO 12: Despacho de Regra de Negócio] Gatilho de persistência
                   SizedBox(
                     width: double.infinity,
-                    height: 48,
+                    height: 50,
                     child: ElevatedButton.icon(
                       onPressed: () {
                         _cartService.addToCart(
@@ -207,18 +143,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           color: _selectedColor,
                           quantity: _quantity,
                         );
-                        // [TÓPICO 13: Feedback Nativo] SnackBar confirmação visual de sucesso
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
                               '${widget.product.title} adicionado!',
-                              style: GoogleFonts.poppins(),
                             ),
                             backgroundColor: Colors.green,
                           ),
                         );
-
-                        // [TÓPICO 8: Navegação de Fluxo] Transiciona o usuário imediatamente para o carrinho
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -226,19 +158,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         );
                       },
-                      icon: const Icon(Icons.shopping_cart_checkout, size: 20),
-                      label: Text(
-                        'Adicionar ao carrinho',
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      icon: const Icon(Icons.shopping_cart_checkout),
+                      label: const Text('Adicionar ao carrinho'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF9C27B0),
+                        backgroundColor: const Color(0xFF780BF7),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24.0),
+                          borderRadius: BorderRadius.circular(24),
                         ),
                       ),
                     ),
@@ -249,6 +175,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  // Widget auxiliar para dropdowns para manter o código limpo
+  Widget _buildDropdown(
+    String label,
+    dynamic value,
+    List<dynamic> items,
+    Function(dynamic) onChanged,
+  ) {
+    return DropdownButtonFormField<dynamic>(
+      value: value,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(24)),
+      ),
+      items: items
+          .map((i) => DropdownMenuItem(value: i, child: Text(i.toString())))
+          .toList(),
+      onChanged: onChanged,
     );
   }
 }
