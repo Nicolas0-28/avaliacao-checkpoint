@@ -1,34 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// [TÓPICO 1: Componentização] Widget isolado para garantir alta coesão e responsabilidade única
 class HeroSectionWidget extends StatelessWidget {
   const HeroSectionWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // [TÓPICO 2: UI Declarativa] Uso de DecoratedBox para estilização visual com assets
     return DecoratedBox(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/banner_cta.png'),
-          fit: .cover,
+          fit: BoxFit.cover,
         ),
       ),
       child: Column(
-        spacing: 20,
-        crossAxisAlignment: .center,
         children: [
+          // [TÓPICO 3: Organização de Assets] Referenciando imagens locais organizadas
           Padding(
             padding: const EdgeInsets.all(20),
             child: Image.asset('assets/hero_cta.png', width: 300),
           ),
+
+          // [TÓPICO 4: Tipografia Avançada] Utilizando Text.rich e GoogleFonts para identidade visual
           Text.rich(
-            textAlign: .center,
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: GoogleFonts.orbitron().fontFamily,
               fontSize: 50,
-              fontWeight: .bold,
+              fontWeight: FontWeight.bold,
             ),
-            TextSpan(
+            const TextSpan(
               text: 'Hora de abraçar seu ',
               style: TextStyle(color: Color(0xFFFF55DF)),
               children: [
@@ -39,12 +42,15 @@ class HeroSectionWidget extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 25),
+
+          const SizedBox(height: 25),
+
+          // [TÓPICO 5: Interatividade] Botão estilizado com feedback visual
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF780BF7),
-              padding: .symmetric(horizontal: 30, vertical: 25),
+              backgroundColor: const Color(0xFF780BF7),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
             ),
             child: Text(
               'Ver as Novidades',
@@ -52,11 +58,11 @@ class HeroSectionWidget extends StatelessWidget {
                 fontFamily: GoogleFonts.poppins().fontFamily,
                 fontSize: 25,
                 color: Colors.white,
-                fontWeight: .bold,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
         ],
       ),
     );
