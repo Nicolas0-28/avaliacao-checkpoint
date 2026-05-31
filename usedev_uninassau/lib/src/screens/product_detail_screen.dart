@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 // [TÓPICO 9: Interface com Google Fonts] Importação do pacote para estilização tipográfica padrão
 import 'package:google_fonts/google_fonts.dart';
+// [TÓPICO 1: Arquitetura de Pastas] Importações relativas apontando para as camadas corretas de src/
+import 'package:usedev_uninassau/src/models/product_model.dart';
+import 'package:usedev_uninassau/src/services/cart_service.dart';
 import 'package:usedev_uninassau/src/widgets/custom_app_bar_widget.dart';
 
-// [TÓPICO 1: Arquitetura de Pastas] Importações relativas apontando para as camadas corretas de src/
-import '../models/product_model.dart';
-import '../services/cart_service.dart';
 import 'cart_screen.dart';
 
 // [TÓPICO 10: Componentização de Telas] StatefulWidget utilizado para gerenciar as mutações dos atributos locais
